@@ -9,3 +9,7 @@
     import 'relative/path/to/stylesheet.scss';
 
 */
+
+#bar{
+    border: 1px solid red;
+}
