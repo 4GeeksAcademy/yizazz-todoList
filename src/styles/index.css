@@ -9,7 +9,61 @@
     import 'relative/path/to/stylesheet.scss';
 
 */
+.titulo {
+    font-size: 6rem;
+    font-weight: lighter;
+    color: rgb(218, 182, 220);
+    opacity: 0.5;
+}
 
-#bar{
-    border: 1px solid red;
+#bar:focus {
+    outline: none;
+}
+
+#bar {
+    border: none;
+    border-bottom: 1px solid #ccc;
+    height: 4rem;
+    font-size: 2.5rem;
+    font-weight: lighter;
+    padding-left: 50px;
+}
+
+.task-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 12px;
+    border-bottom: 1px solid #ccc;
+    align-items: center;
+    cursor: pointer;
+}
+
+.task-text {
+    font-size: 2.5rem;
+    font-weight: lighter;
+}
+
+.task-delete {
+    color: red;
+    font-weight: lighter;
+    font-size: 2rem;
+    margin-left: 10px;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+.task-item:hover .task-delete {
+    opacity: 1;
+    visibility: visible;
+}
+
+.task-item:hover .task-delete {
+    color: darkred;
+}
+
+.items-left {
+    padding-left: 0.5rem;
+    font-weight: lighter;
+    opacity: 0.5;
 }

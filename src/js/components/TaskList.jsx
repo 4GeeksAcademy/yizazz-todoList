@@ -7,27 +7,53 @@ const TaskList = () => {
     const [holdTask, setHoldTask] = useState([])
 
     const validateTask = () => {
-        if (newTask === '') alert("No puede estar vacío");
-        setHoldTask([...holdTask, newTask]);
+        if (newTask.trimStart() === '') {
+            alert("No puede estar vacío");
+            return;
+        }
+        const taskIdObject = {
+            id: Date.now(),
+            text: newTask,
+        };
+        setHoldTask([...holdTask, taskIdObject]);
         setNewTask('');
-    }
+    };
+
+    const deleteTask = (idToDelete) => {
+        setHoldTask(holdTask.filter((task) => task.id !== idToDelete))
+    };
 
     return (
-    <div className="row mt-5 justify-content-center border border-success">
+        <div className="row d-flex justify-content-center">
+            <div className="col-5 col-md-3 titulo d-flex justify-content-center">todos
+            </div>
+            <div className="row justify-content-center">
+                <div className=" col-8 border p-0">
+                    <input className="w-100 px-3" id="bar"
+                        type="text"
+                        value={newTask}
+                        onChange={event => setNewTask(event.target.value)}
+                        onKeyDown={event => {
+                            if (event.key === "Enter") validateTask();
+                        }}
+                    ></input>
+                    <div>{holdTask.map((task) => (
+                        <div className="task-item" key={task.id}
+                            onClick={() => deleteTask(task.id)}>
+                            <span className="task-text">{task.text}</span>
+                            <span className="task-delete">
+                                X
+                            </span>
+                        </div>
+                    ))}
+                    </div>
+                    {holdTask.length > 0 && (
+                    <span className="items-left">{holdTask.length} Items left.</span>
+                    )}
+                </div>
+            </div>
 
-        <div className=" col-8 border p-0">
-            <input className="w-100 px-3" id="bar"
-                type="text"
-                value={newTask}
-                onChange={event => setNewTask(event.target.value)}
-                onKeyDown={event => {
-                    if (event.key === "Enter") validateTask();
-                }}
-
-            ></input>
-            <div>{holdTask.map((task, index) => (<div className="border-bottom"><div className="px-3" key={index}>{task}</div></div>))}</div>
         </div>
-    </div>
     );
 
 };
