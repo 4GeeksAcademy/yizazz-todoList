@@ -1,16 +1,18 @@
-import react, { useState } from "react"
+import react, { useEffect, useState } from "react"
 
 
 
 const TaskList = () => {
     const [newTask, setNewTask] = useState('')
     const [holdTask, setHoldTask] = useState([])
+    const [error, setError] = useState("");
 
     const validateTask = () => {
         if (newTask.trimStart() === '') {
-            alert("No puede estar vacío");
+          setError("¡No puedes crear una tarea vacía!")
             return;
         }
+        setError("");
         const taskIdObject = {
             id: Date.now(),
             text: newTask,
@@ -19,24 +21,37 @@ const TaskList = () => {
         setNewTask('');
     };
 
+
+    
     const deleteTask = (idToDelete) => {
         setHoldTask(holdTask.filter((task) => task.id !== idToDelete))
     };
+
+    useEffect(() => {
+        if (error) {
+            const timer = setTimeout(()=> setError(""), 3000);
+            return () => clearTimeout(timer);
+        }
+    }, [error])
 
     return (
         <div className="row d-flex justify-content-center">
             <div className="col-5 col-md-3 titulo d-flex justify-content-center">todos
             </div>
             <div className="row justify-content-center">
-                <div className=" col-8 border p-0">
-                    <input className="w-100 px-3" id="bar"
+                <div className="general col-8 border p-0">
+                    <input className="w-100" id="bar"
                         type="text"
                         value={newTask}
                         onChange={event => setNewTask(event.target.value)}
                         onKeyDown={event => {
-                            if (event.key === "Enter") validateTask();
+                            if (event.key === "Enter")validateTask() ;
                         }}
+                        placeholder="Escribe tu tarea aquí!"
                     ></input>
+                    {error && (
+                        <div className="alert alert-warning m-2 p-2" role="alert">{error}</div>
+                    )}
                     <div>{holdTask.map((task) => (
                         <div className="task-item" key={task.id}
                             onClick={() => deleteTask(task.id)}>
